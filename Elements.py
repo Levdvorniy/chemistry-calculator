@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Any
 
 class ElementsType(Enum):
     METAL = 1
@@ -23,7 +24,7 @@ class Element:
         self.the_name_is_in_latin = the_name_is_in_latin
         self.designation = designation
         self.valence = valence
-        self.ElementType = ElementType
+        self.ElementTypes = ElementType
         self.period = period
         self.row = row
         self.group = group
@@ -33,24 +34,52 @@ class Element:
 
 Elements = []
 
-Elements.append(Element(1, "Hydrogen", "Hydrogenium", "H", [-1, +1], [ElementsType.NONMETAL], 1, 1, 1))
-Elements.append(Element(2, "Helium", "Helium" , "He", [-1, +1], [ElementsType.NONMETAL], 1, 1, 8))
-Elements.append(Element(3, "Lithium", "Lithium" , "Li", [-1, +1], [ElementsType.METAL], 2, 2, 1))
-Elements.append(Element(4, "Beryllium", "Beryllium" , "Be", [-1, +1], [ElementsType.NONMETAL], 2, 2, 2))
-Elements.append(Element(5, "Boron", "Borum" , "He", [-1, +1], [ElementsType.NONMETAL], 2, 2, 3))
-Elements.append(Element(6, "Carbon", "Carboneum" , "C", [-1, +1], [ElementsType.NONMETAL], 2, 2, 4))
-Elements.append(Element(7, "Nitrogen", "Nitrogenium" , "N", [-1, +1], [ElementsType.NONMETAL], 2, 2, 5))
-Elements.append(Element(8, "Oxygen", "Oxygenium" , "O", [-1, +1], [ElementsType.NONMETAL], 2, 2, 6))
-Elements.append(Element(9, "Fluorine", "Fluorum" , "F", [-1, +1], [ElementsType.NONMETAL, ElementsType.GALOGEN], 2, 2, 7))
-Elements.append(Element(10, "Neon", "Neon" , "Ne", [-1, +1], [ElementsType.NONMETAL], 2, 2, 8))
-Elements.append(Element(11, "Sodium", "Natrium", "Na", [-1, +1], [ElementsType.METAL], 3, 3, 1))
-Elements.append(Element(12, "Magnesium", "Magnesium" , "Mg", [-1, +1], [ElementsType.NONMETAL], 3, 3, 2))
-Elements.append(Element(13, "Aluminium", "Aluminium" , "Al", [-1, +1], [ElementsType.METAL], 3, 3, 3))
-Elements.append(Element(14, "Silicon", "Silicium" , "Si", [-1, +1], [ElementsType.NONMETAL], 3, 3, 4))
-Elements.append(Element(15, "Phosphorus", "Phosphorus" , "P", [-1, +1], [ElementsType.NONMETAL], 3, 3, 5))
-Elements.append(Element(16, "Sulfur", "Sulfur" , "S", [-1, +1], [ElementsType.NONMETAL], 3, 3, 6))
-Elements.append(Element(17, "Chlorine", "Chlorum" , "Cl", [-1, +1], [ElementsType.NONMETAL], 3, 3, 7))
-Elements.append(Element(18, "Argon", "Argon" , "Ar", [-1, +1], [ElementsType.NONMETAL], 3, 3, 8))
-Elements.append(Element(19, "Potassium", "Kalium" , "K", [-1, +1], [ElementsType.METAL], 4, 4, 1))
-Elements.append(Element(20, "Calcium", "Calcium" , "Ca", [-1, +1], [ElementsType.METAL], 4, 4, 2))
-print(Elements[0])
+hydrogen0 = Element(1, "Hydrogen", "Hydrogenium", "H", [1], [ElementsType.NONMETAL], 1, 1, 1)
+Elements.append(hydrogen0) 
+hydrogen = Element(1, "Hydrogen", "Hydrogenium", "H", [1], [ElementsType.NONMETAL], 1, 1, 7)
+Elements.append(hydrogen)
+helium = Element(2, "Helium", "Helium" , "He", [0], [ElementsType.NONMETAL], 1, 1, 8)
+Elements.append(helium)
+lithium = Element(3, "Lithium", "Lithium" , "Li", [1], [ElementsType.METAL], 2, 2, 1)
+Elements.append(lithium)
+beryllium = Element(4, "Beryllium", "Beryllium" , "Be", [2], [ElementsType.NONMETAL], 2, 2, 2)
+Elements.append(beryllium)
+boron = Element(5, "Boron", "Borum" , "He", [3], [ElementsType.NONMETAL], 2, 2, 3)
+Elements.append(boron)
+carbon = Element(6, "Carbon", "Carboneum" , "C", [2, 4], [ElementsType.NONMETAL], 2, 2, 4)
+Elements.append(carbon)
+nitrogen = Element(7, "Nitrogen", "Nitrogenium" , "N", [1, 2, 3, 4], [ElementsType.NONMETAL], 2, 2, 5)
+Elements.append(nitrogen)
+oxygen = Element(8, "Oxygen", "Oxygenium" , "O", [2], [ElementsType.NONMETAL], 2, 2, 6)
+Elements.append(oxygen)
+fluorine = Element(9, "Fluorine", "Fluorum" , "F", [1], [ElementsType.NONMETAL, ElementsType.GALOGEN], 2, 2, 7)
+Elements.append(fluorine)
+neon = Element(10, "Neon", "Neon" , "Ne", [0], [ElementsType.NONMETAL], 2, 2, 8)
+Elements.append(neon)
+sodium = Element(11, "Sodium", "Natrium", "Na", [1], [ElementsType.METAL], 3, 3, 1)
+Elements.append(sodium)
+magnesium = Element(12, "Magnesium", "Magnesium" , "Mg", [2], [ElementsType.NONMETAL], 3, 3, 2)
+Elements.append(magnesium)
+aluminium = Element(13, "Aluminium", "Aluminium" , "Al", [3], [ElementsType.METAL], 3, 3, 3)
+Elements.append(aluminium)
+silicon = Element(14, "Silicon", "Silicium" , "Si", [2, 4], [ElementsType.NONMETAL], 3, 3, 4)
+Elements.append(silicon)
+phosphorus = Element(15, "Phosphorus", "Phosphorus" , "P", [3, 5], [ElementsType.NONMETAL], 3, 3, 5)
+Elements.append(phosphorus)
+sulfur = Element(16, "Sulfur", "Sulfur" , "S", [2, 4, 6], [ElementsType.NONMETAL], 3, 3, 6)
+Elements.append(sulfur)
+chlorine = Element(17, "Chlorine", "Chlorum" , "Cl", [1, 3, 5, 7], [ElementsType.NONMETAL, ElementsType.GALOGEN], 3, 3, 7)
+Elements.append(chlorine)
+argon = Element(18, "Argon", "Argon" , "Ar", [0], [ElementsType.NONMETAL], 3, 3, 8)
+Elements.append(argon)
+potassium = Element(19, "Potassium", "Kalium" , "K", [1], [ElementsType.METAL], 4, 4, 1)
+Elements.append(potassium)
+calcium = Element(20, "Calcium", "Calcium" , "Ca", [2], [ElementsType.METAL], 4, 4, 2)
+Elements.append(calcium)
+scandium = Element(21, "Scandium", "Scandium", "Sc", [3], [ElementsType.METAL], 4, 4, 3)
+Elements.append(scandium)
+titanium = Element(22, "Titanium", "Titanium", "Ti", [2, 3, 4], [ElementsType.METAL, 4, 4, 4])
+
+for i in Elements:
+    if ElementsType.METAL in i.ElementTypes:
+        print(i.designation)
