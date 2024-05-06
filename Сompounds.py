@@ -1,16 +1,44 @@
 from enum import Enum
+import re
+from Elements import get_periodic_table
+class Compounds(Enum): # химические соединения
+    ALKALI = 1 # основания
+    ACID = 2 # кислоты
+    OXIDE = 3 # оксиды
+    SALT = 4 # соли
 
-class Compounds(Enum):
-    ALKALI = 1
-    ACID = 2
-    OXIDE = 3
-    SALT = 4
+class Redox(Enum): # реакции
+    CONNECTION = 1 # соединения
+    DECOMPOSITION = 2 # разложения
+    SUBSTRITUTION = 3 # замещения
+    EXCHANGE = 3 # обмена
 
+def determine_type_of_compounds(component):
+
+    type_of_component = Compounds.ACID
+
+    return type_of_component
+
+
+def determine_type_of_reactions(type_of_components):
+
+    if len(type_of_components == 1):
+        return Redox.DECOMPOSITION
+
+    type_of_reaction = Redox.CONNECTION
+    
+    return type_of_reaction
+
+
+periodic_table = get_periodic_table()
 
 print("Введите уравнение ОВР")
 equation = input()
 
-component1, component2 = equation.split(" + ")
+components = equation.split(" + ")
+result = []
 
-print(component1)
-print(component2)
+
+
+for i in components:
+    print(i)
