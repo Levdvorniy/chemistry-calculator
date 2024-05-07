@@ -15,9 +15,12 @@ class Redox(Enum): # реакции
 
 def determine_type_of_compounds(component):
 
-    type_of_component = Compounds.ACID
-
-    return type_of_component
+    if "OH" in component:
+        return Compounds.ALKALI
+    if "O" in component:
+        return Compounds.OXIDE
+    else:
+        return Compounds.ACID
 
 
 def determine_type_of_reactions(type_of_components):
@@ -36,9 +39,7 @@ print("Введите уравнение ОВР")
 equation = input()
 
 components = equation.split(" + ")
-result = []
+result = [determine_type_of_compounds(i) for i in components]
+res = zip(components, result)
 
-
-
-for i in components:
-    print(i)
+print(list(res))

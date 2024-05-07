@@ -151,7 +151,7 @@ def get_periodic_table():
     barium = Element(56, "Barium", "Barium", "Ba", [2], [ElementsType.METAL], 6, 8, 2)
     Elements.append(barium)
     
-    lantan = Element(57, "lantan", "lantan", "La", [3], [ElementsType.METAL], 6, 8, 3)
+    lantan = Element(57, "lantan", "lantan", "La", [3], [ElementsType.METAL, ElementsType.LANTHANIDE], 6, 8, 3)
     
     hafnium = Element(72, "Hafnium", "Hafnium", "Hf", [2, 3, 4], [ElementsType.METAL], 6, 8, 4)
     Elements.append(hafnium)
@@ -205,8 +205,8 @@ def get_periodic_table():
 
     return Elements
 
-lst = get_periodic_table()
+# lst = get_periodic_table()
 
-for i in lst:
-    if ElementsType.METAL in i.ElementTypes:
-        print(i.designation)
+# for i in lst:
+#     if ElementsType.METAL in i.ElementTypes:
+#         print(i.designation)
