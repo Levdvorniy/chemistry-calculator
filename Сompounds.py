@@ -23,6 +23,7 @@ class Catalisator(Enum):
     ELECTRISITY = 1
     PLATINUM = 2
     TEMPERATURE = 3
+    NOTHING = 4
 
 def determine_type_of_compounds(component):
 
@@ -38,7 +39,9 @@ def determine_type_of_compounds(component):
     else:
         return Compounds.ACID
 
-# def get_catalisator():
+def get_catalisator():
+    
+    return Catalisator.NOTHING
 
 
 def determine_type_of_reactions(types_of_components):
