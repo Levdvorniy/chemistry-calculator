@@ -1,6 +1,7 @@
 from enum import Enum
 import re
 from Elements import get_periodic_table, ElementsType
+from collections import defaultdict
 
 PERIODIC_TABLE = get_periodic_table()
 
@@ -10,8 +11,8 @@ class Compounds(Enum): # химические соединения
     OXIDE = 3 # оксиды
     SALT = 4 # соли
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
 
 class Redox(Enum): # реакции
     CONNECTION = 1 # соединения
@@ -27,12 +28,12 @@ class Catalisator(Enum):
 
 def determine_type_of_compounds(component):
 
-    galogens = [i for i in PERIODIC_TABLE if ElementsType.GALOGEN in i.ElementTypes]
+    metals = [i for i in PERIODIC_TABLE if ElementsType.METAL in i.ElementTypes]
     # print([i.designation for i in galogens])
 
-    if any(i.designation in component for i in galogens):
+    if any(i.designation in component for i in metals):
         return Compounds.SALT
-    if "OH" in component:
+    if any(i.designation in component for i in metals) and "OH" in component:
         return Compounds.ALKALI
     if "O" in component:
         return Compounds.OXIDE
@@ -44,27 +45,66 @@ def get_catalisator():
     return Catalisator.NOTHING
 
 
-def determine_type_of_reactions(types_of_components):
+def parse_chemical_formula(formula):
+    def multiply_elements(elements, multiplier):
+        return {element: count * multiplier for element, count in elements.items()}
 
-    if len(types_of_components) == 1:
-        return Redox.DECOMPOSITION
-    if Compounds.ALKALI in types_of_components and Compounds.SALT in types_of_components:
-        return Redox.CONNECTION
-    else:
-        return Redox.SUBSTRITUTION
+    def parse_subformula(subformula):
+        element_stack = []
+        current_element = ''
+        multiplier = ''
+        subformula_count = defaultdict(int)
 
-def compute_coeffs_for_equations(compounds):
-    components = []
-    coeffs = []
-    result = list(zip(components, coeffs))
+        for char in subformula:
+            if char.isdigit():
+                multiplier += char  # Collecting number
+            elif char.isupper():
+                if current_element:
+                    # Save previous element and multiplier
+                    subformula_count[current_element] += int(multiplier) if multiplier else 1
+                current_element = char
+                multiplier = ''
+            elif char.islower():
+                current_element += char
+            elif char == '(' or char == ')':
+                pass  # Ignore as we assume no nested formulas here
 
-    return result
+        # Last element
+        if current_element:
+            subformula_count[current_element] += int(multiplier) if multiplier else 1
+
+        return subformula_count
+
+    # Splitting the formula into parts by '+' and process each part separately
+    parts = formula.split('+')
+    overall_count = defaultdict(int)
+
+    for part in parts:
+        # Extracting leading multipliers and the subformula
+        match = re.match(r"(\d+)?([A-Za-z0-9()]+)", part.strip())
+        if match:
+            part_multiplier = int(match.group(1)) if match.group(1) else 1
+            subformula = match.group(2)
+
+            # Parsing the subformula
+            subformula_elements = parse_subformula(subformula)
+
+            # If we have a leading multiplier, apply it to all elements found
+            if part_multiplier != 1:
+                subformula_elements = multiply_elements(subformula_elements, part_multiplier)
+
+            # Add/subtract to the overall count
+            for element, count in subformula_elements.items():
+                overall_count[element] += count
+
+    return list(overall_count.items())
 
 print("Введите уравнение ОВР в формате A + B + ...:")
-equation = input()
+formula = input()
 
-components = equation.split(" + ")
-result = [determine_type_of_compounds(i) for i in components]
-res = zip(components, result)
+components = formula.split(" + ")
+print(parse_chemical_formula(formula))
+# result = [determine_type_of_compounds(i) for i in components]
+# res = zip(components, result)
 
-print(list(res))
+# print(list(res))
