@@ -45,7 +45,7 @@ def get_catalisator():
     return Catalisator.NOTHING
 
 
-def parse_chemical_formula(formula):
+def parse_formula(formula):
     def multiply_elements(elements, multiplier):
         return {element: count * multiplier for element, count in elements.items()}
 
@@ -81,7 +81,7 @@ def parse_chemical_formula(formula):
 
     for part in parts:
         # Extracting leading multipliers and the subformula
-        match = re.match(r"(\d+)?([A-Za-z0-9()]+)", part.strip())
+        match = re.match(r"(\d+)?([A-Za-z0-9()]+)(\d+)?", part.strip())
         if match:
             part_multiplier = int(match.group(1)) if match.group(1) else 1
             subformula = match.group(2)
@@ -99,12 +99,7 @@ def parse_chemical_formula(formula):
 
     return list(overall_count.items())
 
-print("Введите уравнение ОВР в формате A + B + ...:")
+# Testing the function
 formula = input()
-
-components = formula.split(" + ")
-print(parse_chemical_formula(formula))
-# result = [determine_type_of_compounds(i) for i in components]
-# res = zip(components, result)
-
-# print(list(res))
+result = parse_formula(formula)
+print(result)
