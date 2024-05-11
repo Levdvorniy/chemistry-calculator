@@ -46,58 +46,17 @@ def get_catalisator():
 
 
 def parse_formula(formula):
-    def multiply_elements(elements, multiplier):
-        return {element: count * multiplier for element, count in elements.items()}
+    components = formula.split(" + ")
 
-    def parse_subformula(subformula):
-        element_stack = []
-        current_element = ''
-        multiplier = ''
-        subformula_count = defaultdict(int)
+def get_result_of_redox(formula):
 
-        for char in subformula:
-            if char.isdigit():
-                multiplier += char  # Collecting number
-            elif char.isupper():
-                if current_element:
-                    # Save previous element and multiplier
-                    subformula_count[current_element] += int(multiplier) if multiplier else 1
-                current_element = char
-                multiplier = ''
-            elif char.islower():
-                current_element += char
-            elif char == '(' or char == ')':
-                pass  # Ignore as we assume no nested formulas here
+    components = formula.split(" + ")
+    compounds = [determine_type_of_compounds(i) for i in components]
+    result = parse_formula(formula)
+    if Compounds.ACID in compounds and Compounds.OXIDE in compounds:
+        return components[compounds.index(Compounds.ALKALI)]
+    return components[compounds.index(Compounds.ALKALI)]
 
-        # Last element
-        if current_element:
-            subformula_count[current_element] += int(multiplier) if multiplier else 1
-
-        return subformula_count
-
-    # Splitting the formula into parts by '+' and process each part separately
-    parts = formula.split('+')
-    overall_count = defaultdict(int)
-
-    for part in parts:
-        # Extracting leading multipliers and the subformula
-        match = re.match(r"(\d+)?([A-Za-z0-9()]+)(\d+)?", part.strip())
-        if match:
-            part_multiplier = int(match.group(1)) if match.group(1) else 1
-            subformula = match.group(2)
-
-            # Parsing the subformula
-            subformula_elements = parse_subformula(subformula)
-
-            # If we have a leading multiplier, apply it to all elements found
-            if part_multiplier != 1:
-                subformula_elements = multiply_elements(subformula_elements, part_multiplier)
-
-            # Add/subtract to the overall count
-            for element, count in subformula_elements.items():
-                overall_count[element] += count
-
-    return list(overall_count.items())
 
 # Testing the function
 formula = input()
