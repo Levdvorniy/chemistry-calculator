@@ -47,6 +47,9 @@ def get_catalisator():
 
 def parse_formula(formula):
     components = formula.split(" + ")
+    elements = [list(filter(None, re.split(r"([A-Z][a-z]*\d*|\([A-Za-z]+\)\d*)", component))) for component in components]
+
+    return elements
 
 def get_result_of_redox(formula):
 
