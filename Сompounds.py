@@ -64,4 +64,5 @@ def get_result_of_redox(formula):
 # Testing the function
 formula = input()
 result = parse_formula(formula)
+print(get_result_of_redox(formula))
 print(result)
