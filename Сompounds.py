@@ -18,7 +18,7 @@ class Redox(Enum): # реакции
     CONNECTION = 1 # соединения
     DECOMPOSITION = 2 # разложения
     SUBSTRITUTION = 3 # замещения
-    EXCHANGE = 3 # обмена
+    EXCHANGE = 4 # обмена
 
 class Catalisator(Enum):
     ELECTRISITY = 1
@@ -45,17 +45,37 @@ def get_catalisator():
     return Catalisator.NOTHING
 
 
-def parse_formula(formula):
-    components = formula.split(" + ")
-    elements = [list(filter(None, re.split(r"([A-Z][a-z]*\d*|\([A-Za-z]+\)\d*)", component))) for component in components]
+# def parse_formula(formula):
+#     components = formula.split(" + ")
+#     elements = [list(filter(None, re.split(r"([A-Z][a-z]*\d*|\([A-Z0-9a-z0-9]+\)\d*)", component))) for component in components]
 
+#     return elements
+
+def parse_atoms(formula):
+    components = formula.split(" + ")
+    elements = [list(filter(None, re.findall(r"[A-Z][a-z]|[A-Z]|\d*", component))) for component in components]
+    
     return elements
+
+def get_count_of_atoms(formula):
+    count_of_moleculs = 1
+    result = {}
+    for molecul in formula:
+        if molecul[0].isdigit():
+            count_of_moleculs = int(molecul[0])
+        for i in range(len(molecul)-1):
+            count_of_atoms = 1
+            if molecul[i].isinstance() and molecul[i+1].isdigit() and molecul[i] not in result.keys():
+                result[molecul[i]] = count_of_moleculs * int(molecul[i+1])
+            if molecul[i].isinstance() and molecul[i+1].isdigit() and molecul[i] in result.keys():
+                result[molecul[i]] += count_of_moleculs * int(molecul[i+1])
+    return result
 
 def get_result_of_redox(formula):
 
     components = formula.split(" + ")
     compounds = [determine_type_of_compounds(i) for i in components]
-    result = parse_formula(formula)
+    result = parse_atoms(formula)
     if Compounds.ACID in compounds and Compounds.OXIDE in compounds:
         return components[compounds.index(Compounds.ALKALI)]
     return components[compounds.index(Compounds.ALKALI)]
@@ -63,6 +83,8 @@ def get_result_of_redox(formula):
 
 # Testing the function
 formula = input()
-result = parse_formula(formula)
-print(get_result_of_redox(formula))
+result = parse_atoms(formula)
+# print(get_result_of_redox(formula))
 print(result)
+
+# print(parse_atoms("2Na23(O2H3)45"))
